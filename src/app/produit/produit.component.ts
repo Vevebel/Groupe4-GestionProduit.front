@@ -11,12 +11,15 @@ import { ProduitService } from '../services/produit.service';
 })
 export class ProduitComponent implements OnInit {
 
+  produits: any;
+
   constructor(private produitService: ProduitService) { }
 
   ngOnInit(): void {
     this.produitService.getProduits().subscribe(
       (data) => {
         console.log(data);
+        this.produits = data;
       },
       (error) => {
         console.error('Erreur lors de la récupération des articles', error);

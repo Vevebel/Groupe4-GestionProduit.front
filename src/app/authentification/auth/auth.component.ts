@@ -42,8 +42,14 @@ export class AuthComponent {
           if (data.length === 0) {
             this.showMessage('error', 'Login ou mot de passe incorecte');
           }else{
-            console.log(data);
+            
             this.showMessage('success', `Bienvenu ${data[0].prenom} ${data[0].nom}`);
+
+            //redirection si tout ce passe bien
+            this.route.navigate(['/', 'produit']);
+
+            //recuperer l'objet de l'utilisateur connecter
+            localStorage.setItem("userOnline", JSON.stringify(data));
 
           }
         },
@@ -55,5 +61,6 @@ export class AuthComponent {
     }
   }
 }
+
 
 

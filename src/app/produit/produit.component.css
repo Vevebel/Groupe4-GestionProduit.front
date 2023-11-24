@@ -1,0 +1,13 @@
+#card img{
+  height: 300px;
+}
+
+#card img{
+  height: 200px;
+  object-fit: cover;
+}
+
+#description{
+  height: 150px;
+  overflow: hidden;
+}
