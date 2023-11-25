@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserService } from '../../services/user.service';
 import { FormsModule } from '@angular/forms';
-import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
-import { MessagesService } from '../../services/messages.service';
+import { MessagesService } from '../../../services/messages/messages.service';
+import { UserService } from '../../../services/users/user.service';
 
 @Component({
   selector: 'app-auth',
@@ -20,10 +19,7 @@ export class AuthComponent {
 
   constructor(private userService: UserService, private route: Router, private messageService: MessagesService) { }
 
-  ngOnInit(): void {
-
-  }
-
+  ngOnInit(): void {}
 
   login() {
     //Affichage message d'erreur
@@ -31,11 +27,11 @@ export class AuthComponent {
     if (this.email == "" || this.motDePasse == "") {
       this.messageService.showMessage('error', 'Veuillez remplir les champs');
     } else {
-      this.userService.getUserByMail(this.email, this.motDePasse).subscribe(
+      this.userService.login(this.email, this.motDePasse).subscribe(
         (data) => {
           if (data.length === 0) {
             this.messageService.showMessage('error', 'Login ou mot de passe incorecte');
-          }else{
+          } else {
 
             this.messageService.showMessage('success', `Bienvenu ${data[0].prenom} ${data[0].nom}`);
 
@@ -44,7 +40,6 @@ export class AuthComponent {
 
             //recuperer l'objet de l'utilisateur connecter
             localStorage.setItem("userOnline", JSON.stringify(data));
-
           }
         },
         (error) => {

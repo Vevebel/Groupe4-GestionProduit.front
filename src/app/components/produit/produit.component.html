@@ -4,6 +4,7 @@
     Ajouter Produit
   </button>
 
+  <!-- l'affichage des produits -->
   <div class="row row-cols-1 row-cols-md-3 g-4 mt-5">
     <div class="col" *ngFor="let produit of produits">
       <div class="card shadow" id="card">
@@ -13,7 +14,8 @@
           <p class="card-text" id="description">{{ produit.description }}</p>
         </div>
         <div class="d-flex justify-content-evenly p-3">
-          <i class='bi bi-eye btn btn-primary' data-bs-toggle="modal" data-bs-target="#voirDetail" (click)="getProduit(produit.id ?? 0)"></i>
+          <i class='bi bi-eye btn btn-primary' data-bs-toggle="modal" data-bs-target="#voirDetail"
+            (click)="getProduit(produit.id ?? 0)"></i>
           <i class='bx bxs-edit btn btn-warning text-white' data-bs-toggle="modal" data-bs-target="#modifierModal"
             (click)="getProduit(produit.id ?? 0)"></i>
           <i class='bx bxs-trash btn btn-danger' (click)="deleteProduit(produit.id ?? 0)"></i>
@@ -21,9 +23,6 @@
       </div>
     </div>
   </div>
-
-
-
 
   <!-- Modal ajouter-->
   <div class="modal fade" id="ajouterModal" tabindex="-1" aria-labelledby="ajouterModalLabel" aria-hidden="true">
@@ -48,13 +47,13 @@
             </div>
             <div class="mb-3">
               <label for="prixToAdd" class="form-label">Prix</label>
-              <input type="number" class="form-control" id="prixToAdd" aria-describedby="prixToAdd"
-                name="prixToAdd" [(ngModel)]="prixToAdd">
+              <input type="number" class="form-control" id="prixToAdd" aria-describedby="prixToAdd" name="prixToAdd"
+                [(ngModel)]="prixToAdd">
             </div>
             <div class="mb-3">
               <label for="imageToAdd" class="form-label">Image</label>
-              <input type="text" class="form-control" id="imageToAdd" aria-describedby="imageToAdd"
-                name="imageToAdd" [(ngModel)]="imageToAdd">
+              <input type="text" class="form-control" id="imageToAdd" aria-describedby="imageToAdd" name="imageToAdd"
+                [(ngModel)]="imageToAdd">
             </div>
           </form>
         </div>
@@ -109,35 +108,34 @@
     </div>
   </div>
 
- <!-- Modal voir detail-->
-<div class="modal fade" id="voirDetail" tabindex="-1" aria-labelledby="voirDetailLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="voirDetailLabel">Détail produit</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <!-- Colonne de gauche (image) -->
-          <div class="col-md-6">
-            <img src="{{ currentProduit.image }}" alt="Image du produit" class="img-fluid">
-          </div>
-          <!-- Colonne de droite (informations) -->
-          <div class="col-md-6">
-            <p>{{ currentProduit.prix }} Fcfa</p>
-            <p>{{ currentProduit.nom }}</p>
-            <p>{{ currentProduit.description }}</p>
-            <!-- Ajouter d'autres informations supplémentaires ici -->
+  <!-- Modal voir detail-->
+  <div class="modal fade" id="voirDetail" tabindex="-1" aria-labelledby="voirDetailLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="voirDetailLabel">Détail produit</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <!-- Colonne de gauche (image) -->
+            <div class="col-md-6">
+              <img src="{{ currentProduit.image }}" alt="Image du produit" class="img-fluid">
+            </div>
+            <!-- Colonne de droite (informations) -->
+            <div class="col-md-6">
+              <p>{{ currentProduit.prix }} Fcfa</p>
+              <p>{{ currentProduit.nom }}</p>
+              <p>{{ currentProduit.description }}</p>
+              <!-- Ajouter d'autres informations supplémentaires ici -->
+            </div>
           </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
-
 
 </div>

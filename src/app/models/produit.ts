@@ -1,5 +1,3 @@
-import { User } from "./user";
-
 export interface IProduit {
   id?: number;
   nom?: string;

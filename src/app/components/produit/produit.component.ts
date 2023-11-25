@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProduitService } from '../services/produit.service';
+import { ProduitService } from '../../services/produits/produit.service';
 import { FormsModule } from '@angular/forms';
-import { Produit } from '../models/produit';
+import { Produit } from '../../models/produit';
 import Swal from 'sweetalert2';
-import { MessagesService } from '../services/messages.service';
-import { User } from '../models/user';
+import { MessagesService } from '../../services/messages/messages.service';
+import { User } from '../../models/user';
 
 @Component({
   selector: 'app-produit',
@@ -48,7 +48,7 @@ export class ProduitComponent implements OnInit {
       (data) => {
         // console.log(data);
         //recuperer les produit de l'utilisateur connecter
-        this.produits = data.filter((elt: any) => elt.userId === this.user[0].userId);
+        this.produits = data.filter((elt: any) => elt.userId === this.user[0].userId).reverse();
       },
       (error) => {
         console.error('Erreur lors de la récupération des produit', error);
@@ -63,7 +63,7 @@ export class ProduitComponent implements OnInit {
         // console.log(data);
         this.currentProduit = data;
 
-        //remplir les input
+        //remplir les input⭕?? '': c'est pour dire que par si currentProduit.nom est undefined de mettre chaine vide⭕
         this.nomProduitToUpdate = this.currentProduit.nom ?? '';
         this.descriptionProduitToUpdate = this.currentProduit.description ?? '';
         this.prixToUpdate = this.currentProduit.prix ?? 0;
@@ -77,6 +77,7 @@ export class ProduitComponent implements OnInit {
 
   //ajouter produit
   addProduit() {
+    //creation de l'objet a ajouter dans notre base de donnée
     const produit = {
       nom: this.nomProduitToAdd,
       description: this.descriptionProduitToAdd,
@@ -96,6 +97,7 @@ export class ProduitComponent implements OnInit {
             this.messageService.showMessage('success', 'produit ajouter avec succées')
             this.loadAllProduit()
 
+            //vider les champs
             this.nomProduitToAdd = "";
             this.descriptionProduitToAdd = "";
             this.prixToAdd = 0;
@@ -111,7 +113,10 @@ export class ProduitComponent implements OnInit {
 
   //Mise a jours du produit selectionnée
   updateProduit() {
+    //l' id de l'objet à modfier
     const id = this.currentProduit.id;
+
+    //attribution des nouvelles les valeur de l'objet a modifier
     const produit = {
       nom: this.nomProduitToUpdate,
       description: this.descriptionProduitToUpdate,
@@ -139,6 +144,7 @@ export class ProduitComponent implements OnInit {
     }
   }
 
+  //suppression de produit
   deleteProduit(id: number) {
     Swal.fire({
       title: "Etes vous sure de vouloir supprimer?",
@@ -157,6 +163,7 @@ export class ProduitComponent implements OnInit {
           icon: "success"
         });
 
+        //appele notre service qui nous permet de supprimer un produit
         this.produitService.deleteProduit(id)
           .subscribe(
             (response) => {

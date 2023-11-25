@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs'
-import { Produit } from '../models/produit';
+import { Produit } from '../../models/produit';
 
 
 @Injectable({
@@ -22,15 +22,15 @@ export class ProduitService {
   }
 
   addProduit(data: Produit): Observable<Produit> {
-    return this.http.post(`${this.api}produits`, data);
+    return this.http.post<Produit>(`${this.api}produits`, data);
   }
 
   updateProduit(id: number, data: any): Observable<Produit> {
-    return this.http.put(`${this.api}produits/${id}`, data);
+    return this.http.put<Produit>(`${this.api}produits/${id}`, data);
   }
 
   deleteProduit(id: number): Observable<Produit>{
-    return this.http.delete(`${this.api}produits/${id}`);
+    return this.http.delete<Produit>(`${this.api}produits/${id}`);
   }
 
 }

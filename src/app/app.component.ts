@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { ProduitService } from './services/produit.service';
-import { UserService } from './services/user.service';
-import { MessagesService } from './services/messages.service';
+import { ProduitService } from './services/produits/produit.service';
+import { UserService } from './services/users/user.service';
+import { MessagesService } from './services/messages/messages.service';
 import { environment } from './../environments/environment';
 
 @Component({
