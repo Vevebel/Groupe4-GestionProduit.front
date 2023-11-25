@@ -6,7 +6,7 @@ export interface IProduit {
   description?: string;
   prix?: number;
   image?: string;
-  userId?: User;
+  userId?: number;
 }
 
 export class Produit implements IProduit {
@@ -16,7 +16,7 @@ export class Produit implements IProduit {
     public description?: string,
     public prix?: number,
     public image?: string,
-    public userId?: User,
+    public userId?: number,
   ) {
     this.id = id;
     this.nom = nom;

@@ -4,6 +4,7 @@ import { UserService } from '../../services/user.service';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { MessagesService } from '../../services/messages.service';
 
 @Component({
   selector: 'app-auth',
@@ -14,20 +15,13 @@ import { Router } from '@angular/router';
 })
 export class AuthComponent {
 
-  email: string = "saloumfall45@gmail.com";
+  email: string = "";
   motDePasse: string = "";
 
-  constructor(private userService: UserService, private route: Router) { }
+  constructor(private userService: UserService, private route: Router, private messageService: MessagesService) { }
 
   ngOnInit(): void {
 
-  }
-
-  showMessage(icon: any, message: any) {
-    Swal.fire({
-      icon: icon,
-      title: message
-    });
   }
 
 
@@ -35,15 +29,15 @@ export class AuthComponent {
     //Affichage message d'erreur
     // Sinon on essaye de trouver le user correspondant✅
     if (this.email == "" || this.motDePasse == "") {
-      this.showMessage('error', 'Veuillez remplir les champs');
+      this.messageService.showMessage('error', 'Veuillez remplir les champs');
     } else {
       this.userService.getUserByMail(this.email, this.motDePasse).subscribe(
         (data) => {
           if (data.length === 0) {
-            this.showMessage('error', 'Login ou mot de passe incorecte');
+            this.messageService.showMessage('error', 'Login ou mot de passe incorecte');
           }else{
-            
-            this.showMessage('success', `Bienvenu ${data[0].prenom} ${data[0].nom}`);
+
+            this.messageService.showMessage('success', `Bienvenu ${data[0].prenom} ${data[0].nom}`);
 
             //redirection si tout ce passe bien
             this.route.navigate(['/', 'produit']);

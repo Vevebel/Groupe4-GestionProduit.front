@@ -1,48 +1,143 @@
-<div class="container mt-5">
-  <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Ajouter Produit
-</button>
+<div class="container mt-5 mb-5">
+  <!-- Button modal Ajouter-->
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ajouterModal">
+    Ajouter Produit
+  </button>
 
-
-
-<div class="row row-cols-1 row-cols-md-3 g-4 mt-5">
-  <div class="col" *ngFor="let produit of produits">
-    <div class="card shadow" id="card">
-      <img src="{{ produit.image }}" class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">{{ produit.nom }}</h5>
-        <p class="card-text" id="description">{{ produit.description }}</p>
-      </div>
-      <div class="d-flex justify-content-evenly p-3">
-        <i class='bi bi-eye btn btn-primary'></i>
-        <i class='bx bxs-edit btn btn-warning text-white'></i>
-        <i class='bx bxs-trash btn btn-danger'></i>
+  <div class="row row-cols-1 row-cols-md-3 g-4 mt-5">
+    <div class="col" *ngFor="let produit of produits">
+      <div class="card shadow" id="card">
+        <img src="{{ produit.image }}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">{{ produit.nom }}</h5>
+          <p class="card-text" id="description">{{ produit.description }}</p>
+        </div>
+        <div class="d-flex justify-content-evenly p-3">
+          <i class='bi bi-eye btn btn-primary' data-bs-toggle="modal" data-bs-target="#voirDetail" (click)="getProduit(produit.id ?? 0)"></i>
+          <i class='bx bxs-edit btn btn-warning text-white' data-bs-toggle="modal" data-bs-target="#modifierModal"
+            (click)="getProduit(produit.id ?? 0)"></i>
+          <i class='bx bxs-trash btn btn-danger' (click)="deleteProduit(produit.id ?? 0)"></i>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
 
 
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <!-- Modal ajouter-->
+  <div class="modal fade" id="ajouterModal" tabindex="-1" aria-labelledby="ajouterModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="ajouterModalLabel">Ajouter produit</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="nomProduitToAdd" class="form-label">Nom produit</label>
+              <input type="text" class="form-control" id="nomProduitToAdd" aria-describedby="nomProduitToAdd"
+                name="nomProduitToAdd" [(ngModel)]="nomProduitToAdd">
+            </div>
+            <div class="mb-3">
+              <label for="descriptionProduitToAdd" class="form-label">Description</label>
+              <textarea type="text" class="form-control" id="descriptionProduitToAdd"
+                aria-describedby="descriptionProduitToAdd" name="descriptionProduitToAdd"
+                [(ngModel)]="descriptionProduitToAdd"></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="prixToAdd" class="form-label">Prix</label>
+              <input type="number" class="form-control" id="prixToAdd" aria-describedby="prixToAdd"
+                name="prixToAdd" [(ngModel)]="prixToAdd">
+            </div>
+            <div class="mb-3">
+              <label for="imageToAdd" class="form-label">Image</label>
+              <input type="text" class="form-control" id="imageToAdd" aria-describedby="imageToAdd"
+                name="imageToAdd" [(ngModel)]="imageToAdd">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+          <button type="button" class="btn btn-warning text-white" data-bs-dismiss="modal"
+            (click)="addProduit()">Ajouter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Modifier-->
+  <div class="modal fade" id="modifierModal" tabindex="-1" aria-labelledby="modifierModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="modifierModalLabel">Moodfier produit</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="nomProduitToUpdate" class="form-label">Nom produit</label>
+              <input type="text" class="form-control" id="nomProduitToUpdate" aria-describedby="nomProduitToUpdate"
+                name="nomProduitToUpdate" [(ngModel)]="nomProduitToUpdate">
+            </div>
+            <div class="mb-3">
+              <label for="descriptionProduitToUpdate" class="form-label">Description</label>
+              <textarea type="text" class="form-control" id="descriptionProduitToUpdate"
+                aria-describedby="descriptionProduitToUpdate" name="descriptionProduitToUpdate"
+                [(ngModel)]="descriptionProduitToUpdate"></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="prixToUpdate" class="form-label">Prix</label>
+              <input type="number" class="form-control" id="prixToUpdate" aria-describedby="prixToUpdate"
+                name="prixToUpdate" [(ngModel)]="prixToUpdate">
+            </div>
+            <div class="mb-3">
+              <label for="imageToUpdate" class="form-label">Image</label>
+              <input type="text" class="form-control" id="imageToUpdate" aria-describedby="imageToUpdate"
+                name="imageToUpdate" [(ngModel)]="imageToUpdate">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+          <button type="button" class="btn btn-warning text-white" data-bs-dismiss="modal"
+            (click)="updateProduit()">Modifier</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+ <!-- Modal voir detail-->
+<div class="modal fade" id="voirDetail" tabindex="-1" aria-labelledby="voirDetailLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <h1 class="modal-title fs-5" id="voirDetailLabel">Détail produit</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        ...
+        <div class="row">
+          <!-- Colonne de gauche (image) -->
+          <div class="col-md-6">
+            <img src="{{ currentProduit.image }}" alt="Image du produit" class="img-fluid">
+          </div>
+          <!-- Colonne de droite (informations) -->
+          <div class="col-md-6">
+            <p>{{ currentProduit.prix }} Fcfa</p>
+            <p>{{ currentProduit.nom }}</p>
+            <p>{{ currentProduit.description }}</p>
+            <!-- Ajouter d'autres informations supplémentaires ici -->
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
       </div>
     </div>
   </div>
 </div>
+
 
 </div>

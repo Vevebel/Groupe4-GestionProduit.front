@@ -9,11 +9,28 @@ import { Produit } from '../models/produit';
   providedIn: 'root'
 })
 export class ProduitService {
+   api ="http://localhost:3000/";
 
   constructor(private http: HttpClient) { }
 
   getProduits(): Observable<Produit[]> {
-    return this.http.get<Produit[]>("http://localhost:3000/produits");
+    return this.http.get<Produit[]>(`${this.api}/produits`);
+  }
+
+  getProduitById(id: number):Observable<Produit> {
+    return this.http.get<Produit>(`${this.api}/produits/${id}`);
+  }
+
+  addProduit(data: Produit): Observable<Produit> {
+    return this.http.post(`${this.api}produits`, data);
+  }
+
+  updateProduit(id: number, data: any): Observable<Produit> {
+    return this.http.put(`${this.api}produits/${id}`, data);
+  }
+
+  deleteProduit(id: number): Observable<Produit>{
+    return this.http.delete(`${this.api}produits/${id}`);
   }
 
 }
