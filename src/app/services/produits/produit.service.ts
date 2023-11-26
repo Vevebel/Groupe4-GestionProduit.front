@@ -13,8 +13,8 @@ export class ProduitService {
 
   constructor(private http: HttpClient) { }
 
-  getProduits(): Observable<Produit[]> {
-    return this.http.get<Produit[]>(`${this.api}/produits`);
+  getProduits(id: number): Observable<Produit[]> {
+    return this.http.get<Produit[]>(`${this.api}/produits?filter={"where":{"userId":"${id}"}}`);
   }
 
   getProduitById(id: number):Observable<Produit> {
@@ -25,8 +25,8 @@ export class ProduitService {
     return this.http.post<Produit>(`${this.api}produits`, data);
   }
 
-  updateProduit(id: number, data: any): Observable<Produit> {
-    return this.http.put<Produit>(`${this.api}produits/${id}`, data);
+  updateProduit(produit: Produit): Observable<Produit> {
+    return this.http.put<Produit>(`${this.api}produits/${produit.id}`, produit);
   }
 
   deleteProduit(id: number): Observable<Produit>{

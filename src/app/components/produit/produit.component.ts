@@ -6,6 +6,7 @@ import { Produit } from '../../models/produit';
 import Swal from 'sweetalert2';
 import { MessagesService } from '../../services/messages/messages.service';
 import { User } from '../../models/user';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-produit',
@@ -29,7 +30,8 @@ export class ProduitComponent implements OnInit {
   imageToUpdate = "";
 
   //attribut lié au recuperation de pluisieur produit et d'un produit
-  produits: Produit[] = [];
+  produits?: Observable<Produit[]> | null;
+  produit = new Produit;
   currentProduit = new Produit;
 
   //variable pour recuperer les info l'utilisateur courant
@@ -39,21 +41,13 @@ export class ProduitComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem("userOnline") || '')
+    console.log(this.user)
     this.loadAllProduit();
   }
 
   //recuperation de tout les produit
   loadAllProduit() {
-    this.produitService.getProduits().subscribe(
-      (data) => {
-        // console.log(data);
-        //recuperer les produit de l'utilisateur connecter
-        this.produits = data.filter((elt: any) => elt.userId === this.user[0].userId).reverse();
-      },
-      (error) => {
-        console.error('Erreur lors de la récupération des produit', error);
-      }
-    );
+    this.produits = this.produitService.getProduits(this.user[0].userId ?? 0);
   }
 
   //recuperation d'un seul produit pour la modification et voir detail
@@ -77,20 +71,18 @@ export class ProduitComponent implements OnInit {
 
   //ajouter produit
   addProduit() {
-    //creation de l'objet a ajouter dans notre base de donnée
-    const produit = {
-      nom: this.nomProduitToAdd,
-      description: this.descriptionProduitToAdd,
-      prix: this.prixToAdd,
-      image: this.imageToAdd,
-      userId: this.user[0].userId
-    };
+    //attribution des valeur du produit à ajouter dans notre base de donnée
+      this.produit.nom = this.nomProduitToAdd,
+      this.produit.description = this.descriptionProduitToAdd,
+      this.produit.prix = this.prixToAdd,
+      this.produit.image = this.imageToAdd,
+      this.produit.userId = this.user[0].userId
 
     //verifiaction des champs non remplie
     if (this.nomProduitToAdd == "" || this.descriptionProduitToAdd == "" || this.prixToAdd == undefined || this.imageToAdd == "") {
       this.messageService.showMessage('error', 'Veuillez remplir tout les champs');
     } else {
-      this.produitService.addProduit(produit)
+      this.produitService.addProduit(this.produit)
         .subscribe(
           (response) => {
             // console.log(response);
@@ -117,19 +109,17 @@ export class ProduitComponent implements OnInit {
     const id = this.currentProduit.id;
 
     //attribution des nouvelles les valeur de l'objet a modifier
-    const produit = {
-      nom: this.nomProduitToUpdate,
-      description: this.descriptionProduitToUpdate,
-      prix: this.prixToUpdate,
-      image: this.imageToUpdate,
-      userId: this.currentProduit.userId
-    };
+    this.currentProduit.nom = this.nomProduitToUpdate,
+    this.currentProduit.description = this.descriptionProduitToUpdate,
+    this.currentProduit.prix = this.prixToUpdate,
+    this.currentProduit.image = this.imageToUpdate,
+    this.currentProduit.userId = this.currentProduit.userId
 
     //verifiaction des champs non remplie
     if (this.nomProduitToUpdate == "" || this.descriptionProduitToUpdate == "" || this.prixToUpdate == undefined || this.imageToUpdate == "") {
       this.messageService.showMessage('error', 'Veuillez remplir tout les champs');
     } else {
-      this.produitService.updateProduit(id ?? 0, produit)
+      this.produitService.updateProduit(this.currentProduit)
         .subscribe(
           (response) => {
             // console.log(response);

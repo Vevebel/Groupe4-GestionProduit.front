@@ -6,5 +6,5 @@ import { AuthComponent } from './components/authentification/auth/auth.component
 export const routes: Routes = [
   {path: 'connexion', component: AuthComponent},
   {path: 'produit', component: ProduitComponent},
-  {path: '', redirectTo: 'produit', pathMatch: 'full'}
+  {path: '', redirectTo: 'connexion', pathMatch: 'full'}
 ];
