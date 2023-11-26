@@ -6,7 +6,7 @@ export const produitGuard: CanActivateFn = (route, state) => {
   const sweetMessage=new MessagesService();
   if(localStorage.getItem("userOnline")==null || localStorage.getItem("userOnline")==undefined){
     router.navigate(['connexion']);
-    sweetMessage.showMessage('error','connectez-vous et arrêter de faire le malin');
+    sweetMessage.showMessage('error','connectez-vous et arrêtez de faire le malin');
     return false;
   }else{
 

@@ -31,7 +31,7 @@ export class ProduitComponent implements OnInit {
   imageToUpdate = "";
 
   //attribut lié au recuperation de pluisieur produit et d'un produit
-  produits:any=[] ;
+  produits: any = [];
   produit = new Produit;
   currentProduit = new Produit;
 
@@ -54,9 +54,9 @@ export class ProduitComponent implements OnInit {
 
   //recuperation de tout les produit
   loadAllProduit() {
-    this.produitService.getProduits(this.user[0].userId ?? 0,(produits:any)=>{
-      this.produits=produits;
-      this.searchResult=produits;
+    this.produitService.getProduits(this.user[0].userId ?? 0, (produits: any) => {
+      this.produits = produits;
+      this.searchResult = produits;
       console.warn(produits);
     });
   }
