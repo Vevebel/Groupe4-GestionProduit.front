@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { MessagesService } from '../../services/messages/messages.service';
 import { User } from '../../models/user';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-produit',
@@ -37,7 +38,7 @@ export class ProduitComponent implements OnInit {
   //variable pour recuperer les info l'utilisateur courant
   user: User[] = [];
 
-  constructor(private produitService: ProduitService, private messageService: MessagesService) { }
+  constructor(private produitService: ProduitService, private messageService: MessagesService, private route:Router) { }
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem("userOnline") || '')
@@ -168,6 +169,12 @@ export class ProduitComponent implements OnInit {
           );
       }
     });
+  }
+
+  // la fonction qui permet la déconnexion
+  logout(){
+    localStorage.removeItem("userOnline");
+    this.route.navigate(['connexion']);
   }
 
 }

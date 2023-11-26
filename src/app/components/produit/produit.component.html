@@ -1,8 +1,14 @@
 <div class="container mt-5 mb-5">
   <!-- Button modal Ajouter-->
-  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ajouterModal">
-    Ajouter Produit
-  </button>
+  <div class="d-flex justify-content-evenly">
+
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ajouterModal">
+      Ajouter Produit
+    </button>
+    <button type="button" class="btn btn-danger" (click)="logout()" >
+      Déconnexion
+    </button>
+  </div>
 
   <!-- l'affichage des produits -->
   <div class="row row-cols-1 row-cols-md-3 g-4 mt-5">
