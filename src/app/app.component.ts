@@ -11,7 +11,7 @@ import { environment } from './../environments/environment';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, HttpClientModule],
+  imports: [CommonModule, RouterOutlet, HttpClientModule,FormsModule],
   providers: [ProduitService, UserService, MessagesService],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
