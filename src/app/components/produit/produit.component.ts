@@ -38,7 +38,7 @@ export class ProduitComponent implements OnInit {
   //variable pour recuperer les info l'utilisateur courant
   user: User[] = [];
 
-  // recherche et pagination
+  // Attribut pour la recherche et pagination
   search = "";
   pageActuelle: number = 1;
   searchResult: any[] = [];
