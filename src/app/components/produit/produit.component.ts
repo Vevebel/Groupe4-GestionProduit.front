@@ -31,14 +31,20 @@ export class ProduitComponent implements OnInit {
   imageToUpdate = "";
 
   //attribut lié au recuperation de pluisieur produit et d'un produit
-  produits?: Observable<Produit[]> | null;
+  produits:any=[] ;
   produit = new Produit;
   currentProduit = new Produit;
 
   //variable pour recuperer les info l'utilisateur courant
   user: User[] = [];
 
-  constructor(private produitService: ProduitService, private messageService: MessagesService, private route:Router) { }
+  // recherche et pagination
+  search = "";
+  pageActuelle: number = 0;
+  searchResult: any[] = [];
+  articlesParPage: number = 6;
+
+  constructor(private produitService: ProduitService, private messageService: MessagesService, private route: Router) { }
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem("userOnline") || '')
@@ -48,7 +54,11 @@ export class ProduitComponent implements OnInit {
 
   //recuperation de tout les produit
   loadAllProduit() {
-    this.produits = this.produitService.getProduits(this.user[0].userId ?? 0);
+    this.produitService.getProduits(this.user[0].userId ?? 0,(produits:any)=>{
+      this.produits=produits;
+      this.searchResult=produits;
+      console.warn(produits);
+    });
   }
 
   //recuperation d'un seul produit pour la modification et voir detail
@@ -73,7 +83,7 @@ export class ProduitComponent implements OnInit {
   //ajouter produit
   addProduit() {
     //attribution des valeur du produit à ajouter dans notre base de donnée
-      this.produit.nom = this.nomProduitToAdd,
+    this.produit.nom = this.nomProduitToAdd,
       this.produit.description = this.descriptionProduitToAdd,
       this.produit.prix = this.prixToAdd,
       this.produit.image = this.imageToAdd,
@@ -111,10 +121,10 @@ export class ProduitComponent implements OnInit {
 
     //attribution des nouvelles les valeur de l'objet a modifier
     this.currentProduit.nom = this.nomProduitToUpdate,
-    this.currentProduit.description = this.descriptionProduitToUpdate,
-    this.currentProduit.prix = this.prixToUpdate,
-    this.currentProduit.image = this.imageToUpdate,
-    this.currentProduit.userId = this.currentProduit.userId
+      this.currentProduit.description = this.descriptionProduitToUpdate,
+      this.currentProduit.prix = this.prixToUpdate,
+      this.currentProduit.image = this.imageToUpdate,
+      this.currentProduit.userId = this.currentProduit.userId
 
     //verifiaction des champs non remplie
     if (this.nomProduitToUpdate == "" || this.descriptionProduitToUpdate == "" || this.prixToUpdate == undefined || this.imageToUpdate == "") {
@@ -172,9 +182,38 @@ export class ProduitComponent implements OnInit {
   }
 
   // la fonction qui permet la déconnexion
-  logout(){
+  logout() {
     localStorage.removeItem("userOnline");
     this.route.navigate(['connexion']);
+  }
+
+  // la fonction recherche
+  getSearch() {
+    this.searchResult = [];
+    // let searchTmp = [];
+    // searchTmp = JSON.parse(localStorage.getItem('articles') || '[]');
+    this.produits.forEach((element: any) => {
+      if (element.nom.toLowerCase().includes(this.search.toLowerCase())) {
+        this.searchResult.push(element);
+      }
+    });
+  }
+  // Méthode pour déterminer les articles à afficher sur la page actuelle
+  getArticlesPage(): any[] {
+    const indexDebut = (this.pageActuelle - 1) * this.articlesParPage;
+    const indexFin = indexDebut + this.articlesParPage;
+    // console.warn(this.searchResult)
+    return this.searchResult.slice(indexDebut, indexFin);
+  }
+  // Méthode pour générer la liste des pages
+  get pages(): number[] {
+    const totalPages = Math.ceil(this.searchResult.length / this.articlesParPage);
+    return Array(totalPages).fill(0).map((_, index) => index + 1);
+  }
+
+  // Méthode pour obtenir le nombre total de pages
+  get totalPages(): number {
+    return Math.ceil(this.searchResult.length / this.articlesParPage);
   }
 
 }

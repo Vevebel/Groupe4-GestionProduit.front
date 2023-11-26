@@ -9,10 +9,19 @@
       Déconnexion
     </button>
   </div>
-
+<div class="form-floating mb-3 w-50 mt-4 m-auto">
+  <input
+    type="email"
+    class="form-control"
+    id="floatingInput"
+    [(ngModel)]="search"
+    (input)="getSearch()"
+  />
+  <label for="floatingInput">Search Articles</label>
+</div>
   <!-- l'affichage des produits -->
   <div class="row row-cols-1 row-cols-md-3 g-4 mt-5">
-    <div class="col" *ngFor="let produit of produits | async">
+    <div class="col" *ngFor="let produit of searchResult">
       <div class="card shadow" id="card">
         <img src="{{ produit.image }}" class="card-img-top" alt="...">
         <div class="card-body">
@@ -30,6 +39,19 @@
     </div>
   </div>
 
+
+  <!-- pour la pagination -->
+<div class="d-flex justify-content-center my-5">
+  <button class="btn btnColor me-2" [disabled]="pageActuelle === 1" (click)="pageActuelle = pageActuelle - 1">
+    Précédent
+  </button>
+  <button class="btn btnColor ms-2" *ngFor="let page of pages" (click)="pageActuelle = page">
+    {{ page }}
+  </button>
+  <button class="btn btnColor ms-2" [disabled]="pageActuelle === totalPages" (click)="pageActuelle = pageActuelle + 1">
+    Suivant
+  </button>
+</div>
   <!-- Modal ajouter-->
   <div class="modal fade" id="ajouterModal" tabindex="-1" aria-labelledby="ajouterModalLabel" aria-hidden="true">
     <div class="modal-dialog">

@@ -13,8 +13,12 @@ export class ProduitService {
 
   constructor(private http: HttpClient) { }
 
-  getProduits(id: number): Observable<Produit[]> {
-    return this.http.get<Produit[]>(`${this.api}/produits?filter={"where":{"userId":"${id}"}}`);
+  getProduits(id: number,feedback:Function) {
+    this.http.get<Produit[]>(`${this.api}/produits?filter={"where":{"userId":"${id}"}}`).subscribe(
+      (produits:any)=>{
+        feedback(produits)
+      }
+    )
   }
 
   getProduitById(id: number):Observable<Produit> {
