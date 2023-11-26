@@ -40,7 +40,7 @@ export class ProduitComponent implements OnInit {
 
   // recherche et pagination
   search = "";
-  pageActuelle: number = 0;
+  pageActuelle: number = 1;
   searchResult: any[] = [];
   articlesParPage: number = 6;
 

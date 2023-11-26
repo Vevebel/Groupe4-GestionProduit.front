@@ -21,7 +21,7 @@
 </div>
   <!-- l'affichage des produits -->
   <div class="row row-cols-1 row-cols-md-3 g-4 mt-5">
-    <div class="col" *ngFor="let produit of searchResult">
+    <div class="col" *ngFor="let produit of getArticlesPage()">
       <div class="card shadow" id="card">
         <img src="{{ produit.image }}" class="card-img-top" alt="...">
         <div class="card-body">
